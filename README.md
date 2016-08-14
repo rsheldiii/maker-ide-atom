@@ -1,3 +1,7 @@
-# stl-view package
+# maker-id package
 
-Opens and views STL files an WebGL view
+Tools for Makers - an atom extension
+
+Currently this will enable users to:
+* view stl files
+* view brd files
