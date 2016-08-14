@@ -1,4 +1,4 @@
-# maker-id package
+# maker-ide-atom package
 
 Tools for Makers - an atom extension
 

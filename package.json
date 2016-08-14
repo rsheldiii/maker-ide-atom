@@ -1,5 +1,5 @@
 {
-  "name": "maker-ide",
+  "name": "maker-ide-atom",
   "main": "./lib/main",
   "version": "0.1.0",
   "description": "Tools for Makers - an atom extension",
