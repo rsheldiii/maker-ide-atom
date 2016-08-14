@@ -2,7 +2,7 @@ _ = require 'underscore-plus'
 path = require 'path'
 {$, ScrollView} = require 'atom-space-pen-views'
 {Emitter, CompositeDisposable} = require 'atom'
-{OmnibloxView, OmnibloxPart} = require 'omniblox-common'
+{OmnibloxView, OmnibloxPart} = require '@omniblox/omniblox-common'
 
 # View that renders the asset.
 module.exports =
