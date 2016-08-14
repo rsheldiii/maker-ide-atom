@@ -1,0 +1,19 @@
+{
+  "name": "maker-ide",
+  "main": "./lib/main",
+  "version": "0.1.0",
+  "description": "Tools for Makers",
+  "repository": "https://github.com/omniblox/maker-ide-atom",
+  "license": "MIT",
+  "author": "David ten Have <dave@omniblox.io>",
+  "copyright": "Copyright (c) 2016 St. Zeno Exploration Ltd. All rights reserved.",
+  "engines": {
+    "atom": "*"
+  },
+  "dependencies": {
+    "atom-space-pen-views": "^2.0.0",
+    "fs-plus": "^2.0.0",
+    "underscore-plus": "^1.0.0",
+    "omniblox-common": "^0.1.0"
+  }
+}
