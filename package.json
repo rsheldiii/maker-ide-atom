@@ -14,6 +14,6 @@
     "atom-space-pen-views": "^2.0.0",
     "fs-plus": "^2.0.0",
     "underscore-plus": "^1.0.0",
-    "@omniblox/omniblox-common": "^0.1.3"
+    "@omniblox/omniblox-common": "^0.1.2"
   }
 }
