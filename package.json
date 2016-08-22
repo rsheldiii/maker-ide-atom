@@ -1,7 +1,7 @@
 {
   "name": "maker-ide-atom",
   "main": "./lib/main",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Tools for Makers - an atom extension",
   "repository": "https://github.com/omniblox/maker-ide-atom",
   "license": "MIT",
