@@ -4,10 +4,12 @@ MakerIDE = require './maker-ide'
 {CompositeDisposable} = require 'atom'
 
 module.exports =
+
   activate: ->
     @statusViewAttached = false
     @disposables = new CompositeDisposable
     @disposables.add atom.workspace.addOpener(openURI)
+
     # @disposables.add atom.workspace.onDidChangeActivePaneItem => @attachImageEditorStatusView()
 
   deactivate: ->

@@ -4,5 +4,27 @@
 // for a full listing of what's available.
 @import "ui-variables";
 
-.make-ide-view {
+@assetpath: "atom://maker-ide-atom/assets";
+
+.maker-ide-view {
+}
+
+.maker-ide-container{
+  postion: relative;
+}
+
+.maker-ide-container canvas, #factory-button {
+  position: absolute;
+}
+
+#factory-button {
+  margin-top: 15px;
+  margin-left: 20px;
+  width: 25px;
+  height: 25px;
+  background-image: url("@{assetpath}/factory.png");
+  background-repeat: no-repeat;
+  &:hover{
+    background-image: url("@{assetpath}/factory-hover.png");
+  }
 }

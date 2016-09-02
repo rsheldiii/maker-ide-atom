@@ -11,6 +11,7 @@ class MakerIDEView extends ScrollView
     @div class: 'maker-ide-view', tabindex: -1, =>
       @div class: 'maker-ide-container', =>
         @div id: 'maker-ide-container-cell'
+        @div id: 'factory-button'
 
   initialize: (@makerIDEView) ->
 
