@@ -7,6 +7,7 @@ path = require 'path'
 # View that renders the asset.
 module.exports =
 class MakerIDEView extends ScrollView
+
   @content: ->
     @div class: 'maker-ide-view', tabindex: -1, =>
       @div class: 'maker-ide-container', =>
@@ -72,6 +73,12 @@ class MakerIDEView extends ScrollView
     $(window).resize(() => @onWindowResize())
 
     window.scene = @renderer
+
+    button = $("#factory-button")
+
+    button[0].addEventListener('click', () ->
+      atom.commands.dispatch(atom.views.getView(atom.workspace), "application:about");
+    )
 
     return
 
