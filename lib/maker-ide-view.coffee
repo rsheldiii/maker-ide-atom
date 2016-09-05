@@ -12,7 +12,6 @@ class MakerIDEView extends ScrollView
     @div class: 'maker-ide-view', tabindex: -1, =>
       @div class: 'maker-ide-container', =>
         @div id: 'maker-ide-container-cell'
-        @div id: 'factory-button'
 
   initialize: (@makerIDEView) ->
 
@@ -74,11 +73,12 @@ class MakerIDEView extends ScrollView
 
     window.scene = @renderer
 
-    button = $("#factory-button")
+    buttonID = "#{@containerId}-factory-button"
+    $("<div id=\"#{buttonID}\" class=\"factory-button\"></div>").insertAfter(container)
+    button = $("##{buttonID}")
+    button[0].addEventListener 'click', () ->
+      atom.commands.dispatch(atom.views.getView(atom.workspace), "maker-ide-atom:make")
 
-    button[0].addEventListener('click', () ->
-      atom.commands.dispatch(atom.views.getView(atom.workspace), "application:about");
-    )
 
     return
 

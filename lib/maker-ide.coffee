@@ -16,7 +16,7 @@ class MakerIDE
   constructor: (filePath) ->
     @file = new File(filePath)
     @subscriptions = new CompositeDisposable()
-    @sceneID = "brd-#{Date.now()}-#{path.basename(filePath, path.extname(filePath))}"
+    @sceneID = "#{Date.now()}-#{path.basename(filePath, path.extname(filePath))}"
 
   serialize: ->
     {filePath: @getPath(), deserializer: @constructor.name}

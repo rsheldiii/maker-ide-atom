@@ -10,7 +10,9 @@ module.exports =
     @disposables = new CompositeDisposable
     @disposables.add atom.workspace.addOpener(openURI)
 
-    # @disposables.add atom.workspace.onDidChangeActivePaneItem => @attachImageEditorStatusView()
+    atom.commands.add 'atom-workspace', 'maker-ide-atom:make', ->
+      filePath = atom.workspace.getActivePane().activeItem.file.path
+      omnibloxParts[filePath].fabricate()
 
   deactivate: ->
     @disposables.dispose()
