@@ -33,18 +33,18 @@ class MakerIDE
     else
       'untitled'
 
-  # Retrieves the URI of the brd file.
+  # Retrieves the URI of the file.
   #
   # Returns a {String}.
   getURI: -> @getPath()
 
 
-  # Retrieves the absolute path to the brd file.
+  # Retrieves the absolute path to the file.
   #
   # Returns a {String} path.
   getPath: -> @file.getPath()
 
-  # Compares two {brdEditor}s to determine equality.
+  # Compares two {MakerID}s to determine equality.
   #
   # Equality is based on the condition that the two URIs are the same.
   #

@@ -73,6 +73,7 @@ class MakerIDEView extends ScrollView
 
     window.scene = @renderer
 
+    # insert factory button
     buttonID = "#{@containerId}-factory-button"
     $("<div id=\"#{buttonID}\" class=\"factory-button\"></div>").insertAfter(container)
     button = $("##{buttonID}")
