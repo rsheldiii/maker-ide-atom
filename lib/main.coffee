@@ -12,11 +12,11 @@ module.exports =
       properties:
         stl:
           type: 'string'
-          default: '/Applications/Cura.app/Contents/MacOS/Cura'
+          default: OmnibloxPart.defaultConfig().darwin[OmnibloxPart.STL]
           title: 'Tool for printing STL files'
         brd:
           type: 'string'
-          default: '/Applications/Otherplan.app/Contents/MacOS/Otherplan'
+          default: OmnibloxPart.defaultConfig().darwin[OmnibloxPart.BRD]
           title: 'Tool for cutting BRD files'
 
   activate: ->
@@ -24,15 +24,16 @@ module.exports =
     @disposables = new CompositeDisposable
     @disposables.add atom.workspace.addOpener(openURI)
 
-    atom.commands.add 'atom-workspace', 'maker-ide-atom:make', =>
+    atom.commands.add 'atom-workspace', 'maker-ide-atom:fabricate', =>
       filePath = atom.workspace.getActivePane().activeItem.file.path
-      omnibloxParts[filePath].fabricate(@buildConfig())
+      omnibloxParts[filePath].fabricate(@buildConfig().darwin)
 
   deactivate: ->
     @disposables.dispose()
 
   buildConfig: () ->
-    return {'.stl': atom.config.get('maker-ide-atom.externalTools.stl'), '.brd': atom.config.get('maker-ide-atom.externalTools.brd')}
+    config = {'darwin': {'.stl': atom.config.get('maker-ide-atom.externalTools.stl'), '.brd': atom.config.get('maker-ide-atom.externalTools.brd')}}
+    return OmnibloxPart.resolveConfig(config);
 
 # Files with extensions in OmnibloxPart.supportedFileTypes will be opened as geo
 openURI = (uriToOpen) ->

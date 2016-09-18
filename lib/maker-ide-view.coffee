@@ -78,9 +78,8 @@ class MakerIDEView extends ScrollView
     $("<div id=\"#{buttonID}\" class=\"factory-button\"></div>").insertAfter(container)
     button = $("##{buttonID}")
     button[0].addEventListener 'click', () ->
-      atom.commands.dispatch(atom.views.getView(atom.workspace), "maker-ide-atom:make")
-
-
+      atom.commands.dispatch(atom.views.getView(atom.workspace), "maker-ide-atom:fabricate")
+      
     return
 
   # using window means that model is offset from center by the width of the
