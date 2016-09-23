@@ -6,14 +6,14 @@ path = require 'path'
 
 # View that renders the asset.
 module.exports =
-class MakerIDEView extends ScrollView
+class SingleFileView extends ScrollView
 
   @content: ->
-    @div class: 'maker-ide-view', tabindex: -1, =>
+    @div class: 'maker-ide-single-file-view', tabindex: -1, =>
       @div class: 'maker-ide-container', =>
         @div id: 'maker-ide-container-cell'
 
-  initialize: (@makerIDEView) ->
+  initialize: (@singleFile) ->
 
     super
 
@@ -52,7 +52,7 @@ class MakerIDEView extends ScrollView
   initThreeJs: () ->
     # set up webGL view
     container = $('#' + @divID)
-    @containerId = "#{@divID}-#{@makerIDEView.sceneID}"
+    @containerId = "#{@divID}-#{@singleFile.sceneID}"
     @omnibloxView = new (OmnibloxView)(@containerId, container, true, false, @debug)
     container.attr id: @containerId
 
@@ -65,7 +65,7 @@ class MakerIDEView extends ScrollView
       @omnibloxView.render()
       return
 
-    OmnibloxPart.loadFileIntoScene(@makerIDEView.getURI(), @omnibloxView)
+    OmnibloxPart.loadFileIntoScene(@singleFile.getURI(), @omnibloxView)
 
     # sort out div size
     @onWindowResize()
@@ -79,7 +79,7 @@ class MakerIDEView extends ScrollView
     button = $("##{buttonID}")
     button[0].addEventListener 'click', () ->
       atom.commands.dispatch(atom.views.getView(atom.workspace), "maker-ide-atom:fabricate")
-      
+
     return
 
   # using window means that model is offset from center by the width of the

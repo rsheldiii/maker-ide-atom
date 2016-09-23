@@ -1,12 +1,20 @@
 path = require 'path'
 _ = require 'underscore-plus'
-MakerIDE = require './maker-ide'
+SingleFile = require './single-file'
 {CompositeDisposable} = require 'atom'
 {OmnibloxView, OmnibloxPart} = require '@omniblox/omniblox-common'
 
 module.exports =
 
   config:
+    triggerOnSave:
+      type        : 'boolean'
+      description : 'Watch will trigger on save.'
+      default     : true
+    locale:
+      type        : 'string'
+      description : 'Manufacturing locale'
+      default     : 'local'
     externalTools:
       type: 'object'
       properties:
@@ -39,4 +47,4 @@ module.exports =
 openURI = (uriToOpen) ->
   uriExtension = path.extname(uriToOpen).toLowerCase()
   if _.include(OmnibloxPart.supportedFileTypes, uriExtension)
-    new MakerIDE(uriToOpen)
+    new SingleFile(uriToOpen)

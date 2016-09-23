@@ -4,12 +4,12 @@ fs = require 'fs-plus'
 
 # Editor model for an maker files
 module.exports =
-class MakerIDE
+class SingleFile
   atom.deserializers.add(this)
 
   @deserialize: ({filePath}) ->
     if fs.isFileSync(filePath)
-      new MakerIDE(filePath)
+      new SingleFile(filePath)
     else
       console.warn "Could not deserialize Maker IDE for path '#{filePath}' because that file no longer exists"
 
@@ -22,7 +22,7 @@ class MakerIDE
     {filePath: @getPath(), deserializer: @constructor.name}
 
   getViewClass: ->
-    require './maker-ide-view'
+    require './single-file-view'
 
   destroy: ->
     @subscriptions.dispose()
@@ -50,4 +50,4 @@ class MakerIDE
   #
   # Returns a {Boolean}.
   isEqual: (other) ->
-    other instanceof MakerIDE and @getURI() is other.getURI()
+    other instanceof SingleFile and @getURI() is other.getURI()
