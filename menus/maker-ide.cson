@@ -1,0 +1,11 @@
+'menu': [
+  {
+    'label': 'Maker IDE'
+    'submenu': [
+      'label': 'Product'
+      'submenu': [
+        { 'label': 'Toggle Preview', 'command': 'maker-ide-atom:toggle' }
+      ]
+    ]
+  }
+]

@@ -13,10 +13,9 @@ class SingleFile
     else
       console.warn "Could not deserialize Maker IDE for path '#{filePath}' because that file no longer exists"
 
-  constructor: (filePath) ->
+  constructor: (filePath, @sceneID) ->
     @file = new File(filePath)
-    @subscriptions = new CompositeDisposable()
-    @sceneID = "#{Date.now()}-#{path.basename(filePath, path.extname(filePath))}"
+    @subscriptions = new CompositeDisposable() 
 
   serialize: ->
     {filePath: @getPath(), deserializer: @constructor.name}
