@@ -9,7 +9,7 @@ module.exports =
 class SingleFileView extends ScrollView
 
   @content: ->
-    @div class: 'maker-ide-view', tabindex: -1, =>
+    @div class: 'maker-ide-single-file-view', tabindex: -1, =>
       @div class: 'maker-ide-container', =>
         @div id: 'maker-ide-container-cell'
 

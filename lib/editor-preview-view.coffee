@@ -2,7 +2,7 @@ path                  = require 'path'
 {CompositeDisposable, Disposable} = require 'atom'
 {$, $$$, ScrollView}  = require 'atom-space-pen-views'
 _                     = require 'underscore-plus'
-{OmnibloxView, OmnibloxPart} = require '@omniblox/omniblox-common'
+{OmnibloxView, OmnibloxPart, OmnibloxCompositor} = require '@omniblox/omniblox-common'
 
 # TODO: refactor to use the same class arrangement as single-file
 
@@ -23,7 +23,7 @@ class EditorPreviewView extends ScrollView
   #       @div id: 'omniblox-container-cell'
 
   @content: ->
-    @div class: 'maker-ide-view', tabindex: -1, =>
+    @div id: 'maker-ide-container-pane', class: 'maker-ide-view', tabindex: -1, =>
       @div class: 'maker-ide-container', =>
         @div id: 'maker-ide-container-cell'
 
@@ -31,10 +31,18 @@ class EditorPreviewView extends ScrollView
     @initThreeJs()
     @animate()
 
+  destroy: ->
+    @disposables.dispose()
+
+  onDidLoad: (callback) ->
+    @emitter.on 'did-load', callback
+
   constructor: ({@sceneId, @editorId, filePath}) ->
     super
 
     @divID = 'maker-ide-container-cell'
+    @paneDivID = 'maker-ide-container-pane'
+
     if @editorId?
       @resolveEditor(@editorId)
     else
@@ -44,6 +52,7 @@ class EditorPreviewView extends ScrollView
         atom.packages.onDidActivatePackage =>
           @subscribeToFilePath(filePath)
 
+    @debug = true
     return
 
   serialize: ->
@@ -51,10 +60,6 @@ class EditorPreviewView extends ScrollView
     filePath     : @getPath()
     editorId     : @editorId
     sceneId      : @sceneId
-
-  destroy: ->
-    # @unsubscribe()
-    @editorSub.dispose()
 
   subscribeToFilePath: (filePath) ->
     @trigger 'title-changed'
@@ -93,14 +98,13 @@ class EditorPreviewView extends ScrollView
       if pane? and pane isnt atom.workspace.getActivePane()
         pane.activateItem(this)
 
-    @editorSub = new CompositeDisposable
-
+    @disposables = new CompositeDisposable
     if @editor?
       if not atom.config.get("maker-ide-atom.triggerOnSave")
-        @editorSub.add @editor.onDidChange _.debounce(changeHandler, 700)
+        @disposables.add @editor.onDidChange _.debounce(changeHandler, 700)
       else
-        @editorSub.add @editor.onDidSave changeHandler
-      @editorSub.add @editor.onDidChangePath => @trigger 'title-changed'
+        @disposables.add @editor.onDidSave changeHandler
+      @disposables.add @editor.onDidChangePath => @trigger 'title-changed'
 
   renderManifest: () ->
     if @editor?
@@ -108,12 +112,11 @@ class EditorPreviewView extends ScrollView
 
   renderAssembly: () ->
     if not atom.config.get("maker-ide-atom.triggerOnSave") then @editor.save()
-    console.log('foo')
+    console.log('render...')
     # reset scene
-    # @omnibloxView.clearScene()
-    # @updatePane()
-    #
-    # @compositor.process(@editor.getText());
+    @omnibloxView.clearScene()
+    @updatePane()
+    @compositor.process(@editor.getText());
 
     return
 
@@ -140,10 +143,14 @@ class EditorPreviewView extends ScrollView
 
   initThreeJs: () ->
     # set up webGL view
-    container = $('#' + @divID)
-    containerId = "#{@divID}-#{@sceneId}"
-    @omnibloxView = new (OmnibloxView)(containerId, container)
-    container.attr id: containerId
+    canvasContainer = $('#' + @divID)
+    canvasContainerID = "#{@divID}-#{@sceneId}"
+    @omnibloxView = new (OmnibloxView)(canvasContainerID, canvasContainer, true, false, @debug)
+    canvasContainer.attr id: canvasContainerID
+
+    paneDiv = $('#' + @paneDivID)
+    newPaneDivID = "#{@paneDivID}-#{@sceneId}"
+    paneDiv.attr id: newPaneDivID
 
     # set up refresh events
     @omnibloxView.controls.addEventListener 'change', () =>
@@ -166,15 +173,16 @@ class EditorPreviewView extends ScrollView
     window.addEventListener 'resize', @onWindowResize(), false
 
     # TODO: kinda janky
-    root = path.parse(path.parse(@editor.getPath()).dir).dir
-    # @compositor = new OmnibloxCompositor(@editor.getText(), @omnibloxView, "local", root)
+    root = path.parse(@editor.getURI()).dir
+    @compositor = new OmnibloxCompositor(@editor.getText(), @omnibloxView, "local", root)
 
     return
 
   updatePane: () ->
-    div = $("##{@divID}-#{@sceneId}")[0]
-    @omnibloxView.setSize(div.clientWidth, div.clientHeight)
-    @omnibloxView.render();
+    div = $("##{@paneDivID}-#{@sceneId}")[0]
+    if div?
+      @omnibloxView.setSize(div.clientWidth, div.clientHeight)
+      @omnibloxView.render();
     return
 
   onWindowResize: () ->
