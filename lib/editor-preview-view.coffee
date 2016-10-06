@@ -17,11 +17,6 @@ class EditorPreviewView extends ScrollView
   @deserialize: (state) ->
     new EditorPreviewView(state)
 
-  # @content: ->
-  #   @div class: 'omniblox native-key-bindings', tabindex: -1, =>
-  #     @div class: 'omniblox-container', =>
-  #       @div id: 'omniblox-container-cell'
-
   @content: ->
     @div id: 'maker-ide-container-pane', class: 'maker-ide-view', tabindex: -1, =>
       @div class: 'maker-ide-container', =>
@@ -145,7 +140,7 @@ class EditorPreviewView extends ScrollView
     # set up webGL view
     canvasContainer = $('#' + @divID)
     canvasContainerID = "#{@divID}-#{@sceneId}"
-    @omnibloxView = new (OmnibloxView)(canvasContainerID, canvasContainer, true, false, @debug)
+    @omnibloxView = new (OmnibloxView)(canvasContainerID, canvasContainer, true, true, @debug)
     canvasContainer.attr id: canvasContainerID
 
     paneDiv = $('#' + @paneDivID)

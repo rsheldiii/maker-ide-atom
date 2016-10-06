@@ -8,8 +8,13 @@ path = require 'path'
 module.exports =
 class SingleFileView extends ScrollView
 
+  # @content: ->
+  #   @div class: 'maker-ide-single-file-view', tabindex: -1, =>
+  #     @div class: 'maker-ide-container', =>
+  #       @div id: 'maker-ide-container-cell'
+
   @content: ->
-    @div class: 'maker-ide-single-file-view', tabindex: -1, =>
+    @div id: 'maker-ide-container-pane', class: 'maker-ide-view', tabindex: -1, =>
       @div class: 'maker-ide-container', =>
         @div id: 'maker-ide-container-cell'
 
@@ -18,6 +23,8 @@ class SingleFileView extends ScrollView
     super
 
     @divID = 'maker-ide-container-cell'
+    @paneDivID = 'maker-ide-container-pane'
+
     @emitter = new Emitter
     @debug = true
 
@@ -51,10 +58,14 @@ class SingleFileView extends ScrollView
   # TODO: Fix resizing
   initThreeJs: () ->
     # set up webGL view
-    container = $('#' + @divID)
-    @containerId = "#{@divID}-#{@singleFile.sceneID}"
-    @omnibloxView = new (OmnibloxView)(@containerId, container, true, false, @debug)
-    container.attr id: @containerId
+    canvasContainer = $('#' + @divID)
+    canvasContainerID = "#{@divID}-#{@singleFile.sceneID}"
+    @omnibloxView = new (OmnibloxView)(canvasContainerID, canvasContainer, true, false, @debug)
+    canvasContainer.attr id: @containerId
+
+    paneDiv = $('#' + @paneDivID)
+    newPaneDivID = "#{@paneDivID}-#{@singleFile.sceneID}"
+    paneDiv.attr id: newPaneDivID
 
     # set up refresh events
     @omnibloxView.controls.addEventListener 'change', () =>
@@ -74,8 +85,8 @@ class SingleFileView extends ScrollView
     window.scene = @renderer
 
     # insert factory button
-    buttonID = "#{@containerId}-factory-button"
-    $("<div id=\"#{buttonID}\" class=\"factory-button\"></div>").insertAfter(container)
+    buttonID = "#{canvasContainerID}-factory-button"
+    $("<div id=\"#{buttonID}\" class=\"factory-button\"></div>").insertAfter(canvasContainer)
     button = $("##{buttonID}")
     button[0].addEventListener 'click', () ->
       atom.commands.dispatch(atom.views.getView(atom.workspace), "maker-ide-atom:fabricate")
@@ -85,6 +96,13 @@ class SingleFileView extends ScrollView
   # using window means that model is offset from center by the width of the
   # tree view... but it lends itself to more consistent event behaviour ($().height()|.width() only trigger on window resize)
   onWindowResize: () ->
-    @omnibloxView.setSize(window.innerWidth, window.innerHeight)
-    @omnibloxView.render();
+    div = $("##{@paneDivID}-#{@singleFile.sceneID}")[0]
+    if div?
+      @omnibloxView.setSize(div.clientWidth, div.clientHeight)
+      @omnibloxView.render();
     return
+    #
+    #
+    # @omnibloxView.setSize(window.innerWidth, window.innerHeight)
+    # @omnibloxView.render();
+    # return
