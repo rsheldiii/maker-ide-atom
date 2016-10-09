@@ -2,10 +2,8 @@
   {
     'label': 'Maker IDE'
     'submenu': [
-      'label': 'Product'
-      'submenu': [
-        { 'label': 'Toggle Preview', 'command': 'maker-ide-atom:toggle' }
-      ]
+        { 'label': 'Preview product', 'command': 'maker-ide-atom:toggle' },
+        { 'label': 'Make product', 'command': 'maker-ide-atom:fabricate-product' }
     ]
   }
 ]

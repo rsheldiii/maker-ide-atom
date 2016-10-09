@@ -89,7 +89,7 @@ class SingleFileView extends ScrollView
     $("<div id=\"#{buttonID}\" class=\"factory-button\"></div>").insertAfter(canvasContainer)
     button = $("##{buttonID}")
     button[0].addEventListener 'click', () ->
-      atom.commands.dispatch(atom.views.getView(atom.workspace), "maker-ide-atom:fabricate")
+      atom.commands.dispatch(atom.views.getView(atom.workspace), "maker-ide-atom:fabricate-single-file")
 
     return
 

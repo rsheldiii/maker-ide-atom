@@ -4,7 +4,7 @@ _ = require 'underscore-plus'
 SingleFile = require './single-file'
 EditorPreviewView = require './editor-preview-view'
 {CompositeDisposable} = require 'atom'
-{OmnibloxView, OmnibloxPart} = require '@omniblox/omniblox-common'
+{OmnibloxView, OmnibloxPart, OmnibloxCompositor, OmnibloxFabricator} = require '@omniblox/omniblox-common'
 
 module.exports =
 
@@ -36,12 +36,9 @@ module.exports =
     @disposables = new CompositeDisposable
     @disposables.add atom.workspace.addOpener(openURI)
 
-    atom.commands.add 'atom-workspace', 'maker-ide-atom:fabricate', =>
-      filePath = atom.workspace.getActivePane().activeItem.file.path
-      omnibloxParts[filePath].fabricate(@buildConfig().darwin)
-
     @disposables.add atom.commands.add 'atom-workspace', 'maker-ide-atom:toggle': =>  @toggle()
-
+    @disposables.add atom.commands.add 'atom-workspace', 'maker-ide-atom:fabricate-single-file': =>  @makeSingleFile()
+    @disposables.add atom.commands.add 'atom-workspace', 'maker-ide-atom:fabricate-product': =>  @makeProduct()
 
   deactivate: ->
     @disposables.dispose()
@@ -68,6 +65,26 @@ module.exports =
       if editorPreviewView instanceof EditorPreviewView
         editorPreviewView.renderManifest()
         previousActivePane.activate()
+
+
+  makeSingleFile: ->
+    filePath = atom.workspace.getActivePane().activeItem.file.path
+    part = omnibloxParts[filePath]
+    if part?
+      config = @buildConfig().darwin
+      OmnibloxFabricator.fabricateSingleFile(part, config)
+
+
+  makeProduct: ->
+    editor = atom.workspace.getActiveTextEditor()
+    return unless editor?
+    return unless editor.getPath().match(/omniblox.js$/)
+
+    root = path.parse(editor.getURI()).dir
+    config = @buildConfig().darwin
+    OmnibloxFabricator.fabricateProduct(editor.getText(), "local", root, config)
+
+
 
 # Files with extensions in OmnibloxPart.supportedFileTypes will be opened as geo
 openURI = (uriToOpen) ->
