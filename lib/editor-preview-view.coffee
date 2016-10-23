@@ -169,7 +169,7 @@ class EditorPreviewView extends ScrollView
 
     # TODO: kinda janky
     root = path.parse(@editor.getURI()).dir
-    @compositor = new OmnibloxCompositor(@editor.getText(), @omnibloxView, "local", root)
+    @compositor = new OmnibloxCompositor(@editor.getText(), @omnibloxView, root)
 
     return
 

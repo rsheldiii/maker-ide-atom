@@ -15,7 +15,7 @@ class SingleFile
 
   constructor: (filePath, @sceneID) ->
     @file = new File(filePath)
-    @subscriptions = new CompositeDisposable() 
+    @subscriptions = new CompositeDisposable()
 
   serialize: ->
     {filePath: @getPath(), deserializer: @constructor.name}

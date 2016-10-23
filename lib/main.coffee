@@ -82,7 +82,7 @@ module.exports =
 
     root = path.parse(editor.getURI()).dir
     config = @buildConfig().darwin
-    OmnibloxFabricator.fabricateProduct(editor.getText(), "local", root, config)
+    OmnibloxFabricator.fabricateProduct(editor.getText(), root, config)
 
 
 
