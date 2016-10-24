@@ -168,7 +168,7 @@ class EditorPreviewView extends ScrollView
     window.addEventListener 'resize', @onWindowResize(), false
 
     # TODO: kinda janky
-    root = path.parse(@editor.getURI()).dir
+    root = path.parse(path.parse(@editor.getURI()).dir).dir
     @compositor = new OmnibloxCompositor(@editor.getText(), @omnibloxView, root)
 
     return
