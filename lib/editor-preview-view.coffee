@@ -15,7 +15,7 @@ class EditorPreviewView extends ScrollView
   onDidChangeModified : -> new Disposable()
 
   @deserialize: (state) ->
-    new EditorPreviewView(state)
+    new EditorPreviewView(sceneId: state.sceneId, editorId: state.editorId, filePath: state.filePath)
 
   @content: ->
     @div id: 'maker-ide-container-pane', class: 'maker-ide-view', tabindex: -1, =>
@@ -34,7 +34,7 @@ class EditorPreviewView extends ScrollView
 
   constructor: ({@sceneId, @editorId, filePath}) ->
     super
-
+    
     @divID = 'maker-ide-container-cell'
     @paneDivID = 'maker-ide-container-pane'
 

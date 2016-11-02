@@ -17,16 +17,20 @@ module.exports =
       type        : 'string'
       description : 'Manufacturing locale'
       default     : 'local'
+    workingDir:
+      type        : 'string'
+      description : 'Working Directory'
+      default     : path.join(process.env.HOME, OmnibloxPart.defaultConfig().darwin['workingDir'] .slice(1))
     externalTools:
       type: 'object'
       properties:
         stl:
           type: 'string'
-          default: OmnibloxPart.defaultConfig().darwin[OmnibloxPart.STL]
+          default: OmnibloxPart.defaultConfig().darwin['apps'][OmnibloxPart.STL]
           title: 'Tool for printing STL files'
         brd:
           type: 'string'
-          default: OmnibloxPart.defaultConfig().darwin[OmnibloxPart.BRD]
+          default: OmnibloxPart.defaultConfig().darwin['apps'][OmnibloxPart.BRD]
           title: 'Tool for cutting BRD files'
 
   editorPreviewView: null
@@ -44,7 +48,7 @@ module.exports =
     @disposables.dispose()
 
   buildConfig: () ->
-    config = {'darwin': {'.stl': atom.config.get('maker-ide-atom.externalTools.stl'), '.brd': atom.config.get('maker-ide-atom.externalTools.brd')}}
+    config = {'darwin': {'apps': {'.stl': atom.config.get('maker-ide-atom.externalTools.stl'), '.brd': atom.config.get('maker-ide-atom.externalTools.brd')}, 'workingDir': atom.config.get('maker-ide-atom.workingDir')}}
     return OmnibloxPart.resolveConfig(config);
 
   toggle: ->
@@ -69,10 +73,8 @@ module.exports =
 
   makeSingleFile: ->
     filePath = atom.workspace.getActivePane().activeItem.file.path
-    part = omnibloxParts[filePath]
-    if part?
-      config = @buildConfig().darwin
-      OmnibloxFabricator.fabricateSingleFile(part, config)
+    config = @buildConfig().darwin
+    OmnibloxFabricator.fabricateSingleFile(path.extname(filePath), [filePath], config)
 
 
   makeProduct: ->
@@ -80,7 +82,7 @@ module.exports =
     return unless editor?
     return unless editor.getPath().match(/omniblox.js$/)
 
-    root = path.parse(editor.getURI()).dir
+    root = path.parse(path.parse(editor.getURI()).dir).dir
     config = @buildConfig().darwin
     OmnibloxFabricator.fabricateProduct(editor.getText(), root, config)
 
