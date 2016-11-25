@@ -32,6 +32,11 @@ module.exports =
           type: 'string'
           default: OmnibloxPart.defaultConfig().darwin['apps'][OmnibloxPart.BRD]
           title: 'Tool for cutting BRD files'
+        svg:
+          type: 'string'
+          default: OmnibloxPart.defaultConfig().darwin['apps'][OmnibloxPart.SVG]
+          title: 'Tool for cutting BRD files'
+
 
   editorPreviewView: null
 
@@ -48,7 +53,7 @@ module.exports =
     @disposables.dispose()
 
   buildConfig: () ->
-    config = {'darwin': {'apps': {'.stl': atom.config.get('maker-ide-atom.externalTools.stl'), '.brd': atom.config.get('maker-ide-atom.externalTools.brd')}, 'workingDir': atom.config.get('maker-ide-atom.workingDir')}}
+    config = {'darwin': {'apps': {'.stl': atom.config.get('maker-ide-atom.externalTools.stl'), '.brd': atom.config.get('maker-ide-atom.externalTools.brd'), '.svg': atom.config.get('maker-ide-atom.externalTools.svg')}, 'workingDir': atom.config.get('maker-ide-atom.workingDir')}}
     return OmnibloxPart.resolveConfig(config);
 
   toggle: ->
