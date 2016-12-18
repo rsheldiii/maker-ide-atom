@@ -24,9 +24,9 @@ class EditorPreviewView extends ScrollView
 
   attached: () ->
     @initThreeJs()
-    @animate()
 
   destroy: ->
+    @compositor.clearScene()
     @disposables.dispose()
 
   onDidLoad: (callback) ->
@@ -34,7 +34,7 @@ class EditorPreviewView extends ScrollView
 
   constructor: ({@sceneId, @editorId, filePath}) ->
     super
-    
+
     @divID = 'maker-ide-container-cell'
     @paneDivID = 'maker-ide-container-pane'
 
@@ -109,11 +109,12 @@ class EditorPreviewView extends ScrollView
     if not atom.config.get("maker-ide-atom.triggerOnSave") then @editor.save()
     console.log('render...')
     # reset scene
-    @omnibloxView.clearScene()
+    @compositor.clearScene()
     @updatePane()
-    @compositor.process(@editor.getText());
+    @compositor.process(@editor)
 
     return
+
 
   getTitle: ->
     if @editor?
@@ -127,14 +128,6 @@ class EditorPreviewView extends ScrollView
   getPath: ->
     if @editor?
       @editor.getPath()
-
-  animate: () ->
-    requestAnimationFrame => @animate
-    @render()
-    @omnibloxView.controls.update();
-
-  render: (event) ->
-    @omnibloxView.render()
 
   initThreeJs: () ->
     # set up webGL view

@@ -31,7 +31,6 @@ class SingleFileView extends ScrollView
   attached: ->
     @disposables = new CompositeDisposable
     @initThreeJs()
-    @animate()
 
   onDidLoad: (callback) ->
     @emitter.on 'did-load', callback
@@ -44,16 +43,6 @@ class SingleFileView extends ScrollView
   # Returns a {Pane}.
   getPane: ->
     @parents('.pane')[0]
-
-
-  animate: () ->
-    return unless @isVisible()
-    requestAnimationFrame => @animate
-    @render()
-    @omnibloxView.controls.update();
-
-  render: (event) ->
-    @omnibloxView.render()
 
   # TODO: Fix resizing
   initThreeJs: () ->
@@ -93,16 +82,9 @@ class SingleFileView extends ScrollView
 
     return
 
-  # using window means that model is offset from center by the width of the
-  # tree view... but it lends itself to more consistent event behaviour ($().height()|.width() only trigger on window resize)
   onWindowResize: () ->
     div = $("##{@paneDivID}-#{@singleFile.sceneID}")[0]
     if div?
       @omnibloxView.setSize(div.clientWidth, div.clientHeight)
       @omnibloxView.render();
     return
-    #
-    #
-    # @omnibloxView.setSize(window.innerWidth, window.innerHeight)
-    # @omnibloxView.render();
-    # return
