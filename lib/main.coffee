@@ -3,8 +3,12 @@ url  = require 'url'
 _ = require 'underscore-plus'
 SingleFile = require './single-file'
 EditorPreviewView = require './editor-preview-view'
-{CompositeDisposable} = require 'atom'
+{CompositeDisposable, Disposable, Emitter} = require 'atom'
 {OmnibloxView, OmnibloxPart, OmnibloxCompositor, OmnibloxFabricator} = require '@omniblox/omniblox-common'
+
+# Mouse tracking In Editor
+# closestTextEditor = (target) ->
+#   target?.closest?('atom-text-editor')?.getModel()
 
 module.exports =
 
@@ -40,7 +44,9 @@ module.exports =
 
   editorPreviewView: null
 
+
   activate: ->
+    @emitter = new Emitter
     @statusViewAttached = false
     @disposables = new CompositeDisposable
     @disposables.add atom.workspace.addOpener(openURI)
@@ -49,8 +55,46 @@ module.exports =
     @disposables.add atom.commands.add 'atom-workspace', 'maker-ide-atom:fabricate-single-file': =>  @makeSingleFile()
     @disposables.add atom.commands.add 'atom-workspace', 'maker-ide-atom:fabricate-product': =>  @makeProduct()
 
+    # @observeMouse()
+
   deactivate: ->
     @disposables.dispose()
+
+  # Mouse tracking In Editor
+  # core of mousing tracking in text-editor
+  # TODO: Implement
+  # observeMouse: ->
+  #   locationStack = []
+  #   handleCapture = (event) ->
+  #     editor = atom.workspace.getActiveTextEditor()
+  #     return unless editor?
+  #     return unless editor.getPath().match(/omniblox.js$/)
+  #     console.log(editor.getCursorBufferPosition())
+  #
+  #   handleBubble = (event) =>
+  #     if closestTextEditor(event.target)?.getURI()
+  #       setTimeout =>
+  #         @checkLocationChange(location) if location = locationStack.pop()
+  #       , 100
+  #
+  #   workspaceElement = atom.views.getView(atom.workspace)
+  #   workspaceElement.addEventListener('mousedown', handleCapture, true)
+  #   workspaceElement.addEventListener('mousedown', handleBubble, false)
+  #
+  #   @disposables.add new Disposable ->
+  #     workspaceElement.removeEventListener('mousedown', handleCapture, true)
+  #     workspaceElement.removeEventListener('mousedown', handleBubble, false)
+  #
+  # checkLocationChange: (oldLocation) ->
+  #   editor = atom.workspace.getActiveTextEditor()
+  #   return unless editor
+  #
+  #   if editor.element.hasFocus() and (editor.getURI() is oldLocation.URI)
+  #     # Move within same buffer.
+  #     newLocation = new Location(oldLocation.type, editor)
+  #     @emitter.emit('did-change-location', {oldLocation, newLocation})
+  #   else
+  #     @emitter.emit('did-unfocus', {oldLocation})
 
   buildConfig: () ->
     config = {'darwin': {'apps': {'.stl': atom.config.get('maker-ide-atom.externalTools.stl'), '.brd': atom.config.get('maker-ide-atom.externalTools.brd'), '.svg': atom.config.get('maker-ide-atom.externalTools.svg')}, 'workingDir': atom.config.get('maker-ide-atom.workingDir')}}
