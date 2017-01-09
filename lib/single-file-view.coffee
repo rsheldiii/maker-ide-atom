@@ -47,14 +47,15 @@ class SingleFileView extends ScrollView
   # TODO: Fix resizing
   initThreeJs: () ->
     # set up webGL view
+    debugger
     canvasContainer = $('#' + @divID)
     canvasContainerID = "#{@divID}-#{@singleFile.sceneID}"
     @omnibloxView = new (OmnibloxView)(canvasContainerID, canvasContainer, true, false, @debug)
-    canvasContainer.attr id: @containerId
+    canvasContainer.attr("id", canvasContainerID)
 
     paneDiv = $('#' + @paneDivID)
     newPaneDivID = "#{@paneDivID}-#{@singleFile.sceneID}"
-    paneDiv.attr id: newPaneDivID
+    paneDiv.attr("id", newPaneDivID)
 
     # set up refresh events
     @omnibloxView.controls.addEventListener 'change', () =>
