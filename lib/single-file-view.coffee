@@ -47,7 +47,6 @@ class SingleFileView extends ScrollView
   # TODO: Fix resizing
   initThreeJs: () ->
     # set up webGL view
-    debugger
     canvasContainer = $('#' + @divID)
     canvasContainerID = "#{@divID}-#{@singleFile.sceneID}"
     @omnibloxView = new (OmnibloxView)(canvasContainerID, canvasContainer, true, false, @debug)

@@ -101,9 +101,8 @@ module.exports =
     return OmnibloxPart.resolveConfig(config);
 
   toggle: ->
-    editor = atom.workspace.getActiveTextEditor()
-    return unless editor?
 
+    editor = atom.workspace.getActiveTextEditor()
     return unless editor.getPath().match(/omniblox.js$/)
 
     uri = "maker-ide-atom://editor/#{editor.id}"
@@ -166,5 +165,5 @@ openEditorPreview = (uriToOpen, host, pathname, sceneID) ->
 
 openSingleFileView = (uriToOpen, sceneID) ->
   uriExtension = path.extname(uriToOpen).toLowerCase()
-  if _.include(OmnibloxPart.supportedFileTypes, uriExtension)
+  if _.include(OmnibloxPart.renderedFileTypes, uriExtension)
     new SingleFile(uriToOpen, sceneID)
