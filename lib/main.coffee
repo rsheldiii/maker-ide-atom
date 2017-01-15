@@ -103,7 +103,7 @@ module.exports =
   toggle: ->
 
     editor = atom.workspace.getActiveTextEditor()
-    return unless editor.getPath().match(/omniblox.js$/)
+    return unless OmnibloxPart.previewFile(editor.getPath())
 
     uri = "maker-ide-atom://editor/#{editor.id}"
 
@@ -136,7 +136,7 @@ module.exports =
 
 
 
-# Files with extensions in OmnibloxPart.supportedFileTypes will be opened as geo
+# Files with extensions in OmnibloxPart.renderededFileTypes will be opened as geo
 openURI = (uriToOpen) ->
   try
     {protocol, host, pathname} = url.parse(uriToOpen)

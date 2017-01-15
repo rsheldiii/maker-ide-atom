@@ -103,15 +103,22 @@ class EditorPreviewView extends ScrollView
 
   renderManifest: () ->
     if @editor?
-      @renderAssembly()
+      @renderScript()
 
-  renderAssembly: () ->
+  renderScript: () ->
     if not atom.config.get("maker-ide-atom.triggerOnSave") then @editor.save()
-    console.log('render...')
+    scriptPath = @getPath()
+
     # reset scene
     @compositor.clearScene()
     @updatePane()
-    @compositor.process(@editor)
+
+    if OmnibloxPart.isOmnibloxFile(scriptPath)
+      console.log('render omniblox file...')
+      @compositor.process(@editor)
+    else if OmnibloxPart.isJscadFile(scriptPath)
+      console.log('render jscad file...')
+      OmnibloxPart.loadFileIntoScene(scriptPath, @compositor.view)
 
     return
 
