@@ -140,7 +140,7 @@ class EditorPreviewView extends ScrollView
     # set up webGL view
     canvasContainer = $('#' + @divID)
     canvasContainerID = "#{@divID}-#{@sceneId}"
-    @omnibloxView = new (OmnibloxView)(canvasContainerID, canvasContainer, true, true, true, @debug)
+    @omnibloxView = new (OmnibloxView)(canvasContainerID, canvasContainer, false, true, true, @debug)
     canvasContainer.attr id: canvasContainerID
 
     paneDiv = $('#' + @paneDivID)
