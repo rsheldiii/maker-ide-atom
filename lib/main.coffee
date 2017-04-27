@@ -1,5 +1,6 @@
 path = require 'path'
 url  = require 'url'
+hash = require 'string-hash'
 _ = require 'underscore-plus'
 SingleFile = require './single-file'
 EditorPreviewView = require './editor-preview-view'
@@ -143,7 +144,7 @@ openURI = (uriToOpen) ->
   catch error
     return
 
-  sceneID = "#{Date.now()}-#{path.basename(uriToOpen, path.extname(uriToOpen))}"
+  sceneID = "#{Date.now()}-#{hash(path.basename(uriToOpen, path.extname(uriToOpen)))}"
 
   if protocol is 'maker-ide-atom:'
     openEditorPreview(uriToOpen, host, pathname, sceneID)
