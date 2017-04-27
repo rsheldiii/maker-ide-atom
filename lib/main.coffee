@@ -1,11 +1,19 @@
 path = require 'path'
 url  = require 'url'
-hash = require 'string-hash'
 _ = require 'underscore-plus'
 SingleFile = require './single-file'
 EditorPreviewView = require './editor-preview-view'
 {CompositeDisposable, Disposable, Emitter} = require 'atom'
 {OmnibloxView, OmnibloxPart, OmnibloxCompositor, OmnibloxFabricator} = require '@omniblox/omniblox-common'
+
+# string-hash
+hash = (str) ->
+  hashNum = 5381
+  i = str.length
+
+  while(i)
+    hashNum = (hashNum * 33) ^ str.charCodeAt(--i)
+  hashNum >>> 0;
 
 # Mouse tracking In Editor
 # closestTextEditor = (target) ->
