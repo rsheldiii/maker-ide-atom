@@ -1,6 +1,6 @@
 # maker-ide-atom package
 
-##Note!
+## Note!
 
 hey guys! this isn't my repo, this was originally an omniblox repo that has since been taken offline. Feel free to install this as a development package in atom but I currently have no control over the atom package, sorry :/
 
