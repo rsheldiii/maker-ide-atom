@@ -6,6 +6,15 @@ EditorPreviewView = require './editor-preview-view'
 {CompositeDisposable, Disposable, Emitter} = require 'atom'
 {OmnibloxView, OmnibloxPart, OmnibloxCompositor, OmnibloxFabricator} = require 'omniblox-common'
 
+# string-hash
+hash = (str) ->
+  hashNum = 5381
+  i = str.length
+
+  while(i)
+    hashNum = (hashNum * 33) ^ str.charCodeAt(--i)
+  hashNum >>> 0;
+
 # Mouse tracking In Editor
 # closestTextEditor = (target) ->
 #   target?.closest?('atom-text-editor')?.getModel()
@@ -143,7 +152,7 @@ openURI = (uriToOpen) ->
   catch error
     return
 
-  sceneID = "#{Date.now()}-#{path.basename(uriToOpen, path.extname(uriToOpen))}"
+  sceneID = "#{Date.now()}-#{hash(path.basename(uriToOpen, path.extname(uriToOpen)))}"
 
   if protocol is 'maker-ide-atom:'
     openEditorPreview(uriToOpen, host, pathname, sceneID)
