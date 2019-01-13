@@ -2,7 +2,7 @@ path                  = require 'path'
 {CompositeDisposable, Disposable} = require 'atom'
 {$, $$$, ScrollView}  = require 'atom-space-pen-views'
 _                     = require 'underscore-plus'
-{OmnibloxView, OmnibloxPart, OmnibloxCompositor} = require '@omniblox/omniblox-common'
+{OmnibloxView, OmnibloxPart, OmnibloxCompositor} = require 'omniblox-common'
 
 # TODO: refactor to use the same class arrangement as single-file
 

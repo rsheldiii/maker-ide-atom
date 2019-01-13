@@ -4,7 +4,7 @@ _ = require 'underscore-plus'
 SingleFile = require './single-file'
 EditorPreviewView = require './editor-preview-view'
 {CompositeDisposable, Disposable, Emitter} = require 'atom'
-{OmnibloxView, OmnibloxPart, OmnibloxCompositor, OmnibloxFabricator} = require '@omniblox/omniblox-common'
+{OmnibloxView, OmnibloxPart, OmnibloxCompositor, OmnibloxFabricator} = require 'omniblox-common'
 
 # Mouse tracking In Editor
 # closestTextEditor = (target) ->
