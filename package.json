@@ -11,9 +11,14 @@
     "atom": " >=1.0.0"
   },
   "dependencies": {
-    "omniblox-common": "rsheldiii/omniblox-common",
     "atom-space-pen-views": "^2.0.0",
     "fs-plus": "^2.0.0",
+    "omniblox-common": "git+https://github.com/rsheldiii/omniblox-common.git",
     "underscore-plus": "^1.0.0"
+  },
+  "apmInstallSource": {
+    "type": "git",
+    "source": "https://github.com/rsheldiii/maker-ide-atom",
+    "sha": "7d97d6c1a64e69422ab8774189cae33b8c3b8754"
   }
 }
