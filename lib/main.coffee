@@ -24,7 +24,7 @@ module.exports =
     workingDir:
       type        : 'string'
       description : 'Working Directory'
-      default     : path.join(process.env.HOME, OmnibloxPart.defaultConfig().darwin['workingDir'] .slice(1))
+      default     : path.join(process.env.HOME || process.env.USERPROFILE, OmnibloxPart.defaultConfig().darwin['workingDir'].slice(1))
     externalTools:
       type: 'object'
       properties:
