@@ -72,19 +72,11 @@ class SingleFileView extends ScrollView
     $(window).resize(() => @onWindowResize())
 
     window.scene = @renderer
-
-    # insert factory button
-    buttonID = "#{canvasContainerID}-factory-button"
-    $("<div id=\"#{buttonID}\" class=\"factory-button\"></div>").insertAfter(canvasContainer)
-    button = $("##{buttonID}")
-    button[0].addEventListener 'click', () ->
-      atom.commands.dispatch(atom.views.getView(atom.workspace), "maker-ide-atom:fabricate-single-file")
-
     return
 
   onWindowResize: () ->
     div = $("##{@paneDivID}-#{@singleFile.sceneID}")[0]
     if div?
       @omnibloxView.setSize(div.clientWidth, div.clientHeight)
-      @omnibloxView.render();
+      @omnibloxView.render()
     return

@@ -13,7 +13,7 @@ hash = (str) ->
 
   while(i)
     hashNum = (hashNum * 33) ^ str.charCodeAt(--i)
-  hashNum >>> 0;
+  hashNum >>> 0
 
 # Mouse tracking In Editor
 # closestTextEditor = (target) ->
@@ -61,8 +61,6 @@ module.exports =
     @disposables.add atom.workspace.addOpener(openURI)
 
     @disposables.add atom.commands.add 'atom-workspace', 'maker-ide-atom:toggle': =>  @toggle()
-    @disposables.add atom.commands.add 'atom-workspace', 'maker-ide-atom:fabricate-single-file': =>  @makeSingleFile()
-    @disposables.add atom.commands.add 'atom-workspace', 'maker-ide-atom:fabricate-product': =>  @makeProduct()
 
     # @observeMouse()
 
@@ -105,14 +103,10 @@ module.exports =
   #   else
   #     @emitter.emit('did-unfocus', {oldLocation})
 
-  buildConfig: () ->
-    config = {'darwin': {'apps': {'.stl': atom.config.get('maker-ide-atom.externalTools.stl'), '.brd': atom.config.get('maker-ide-atom.externalTools.brd'), '.svg': atom.config.get('maker-ide-atom.externalTools.svg')}, 'workingDir': atom.config.get('maker-ide-atom.workingDir')}}
-    return OmnibloxPart.resolveConfig(config);
-
   toggle: ->
 
     editor = atom.workspace.getActiveTextEditor()
-    return unless OmnibloxPart.previewFile(editor.getPath())
+    return unless editor && OmnibloxPart.previewFile(editor.getPath())
 
     uri = "maker-ide-atom://editor/#{editor.id}"
 
@@ -126,24 +120,6 @@ module.exports =
       if editorPreviewView instanceof EditorPreviewView
         editorPreviewView.renderManifest()
         previousActivePane.activate()
-
-
-  makeSingleFile: ->
-    filePath = atom.workspace.getActivePane().activeItem.file.path
-    config = @buildConfig().darwin
-    OmnibloxFabricator.fabricateSingleFile(path.extname(filePath), [filePath], config)
-
-
-  makeProduct: ->
-    editor = atom.workspace.getActiveTextEditor()
-    return unless editor?
-    return unless editor.getPath().match(/omniblox.js$/)
-
-    root = path.parse(path.parse(editor.getURI()).dir).dir
-    config = @buildConfig().darwin
-    OmnibloxFabricator.fabricateProduct(editor.getText(), root, config)
-
-
 
 # Files with extensions in OmnibloxPart.renderededFileTypes will be opened as geo
 openURI = (uriToOpen) ->

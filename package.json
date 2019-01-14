@@ -18,7 +18,7 @@
   },
   "apmInstallSource": {
     "type": "git",
-    "source": "https://github.com/rsheldiii/maker-ide-atom",
-    "sha": "7d97d6c1a64e69422ab8774189cae33b8c3b8754"
+    "source": "rsheldiii/maker-ide-atom",
+    "sha": "f2e31b0b945cae2b2854f58212e73bd15fc1bdac"
   }
 }
